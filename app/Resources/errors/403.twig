@@ -1,0 +1,29 @@
+{% extends "base-error.twig" %}
+{% block title %}Access denied| Error{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="page-inner">
+            <div id="main-wrapper">
+                <div class="row" style="margin: 0px;">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 center">
+                        <h1 class="text-xxl text-warning text-center">ACCESS DENIED</h1>
+                        <div class="details">
+                            <h3>Oops ! Something went wrong</h3>
+                            <p>You can't access to the page you're looking for. Return <a href="{{ path_for('home') }}">Home</a> or search.</p>
+                            <p>
+                            </p>
+                        </div>
+                        <form class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-btn">
+                                    <button class="btn btn-warning"><i class="fa fa-search text-white"></i></button>
+                                </span>
+                        </form>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div><!-- Row -->
+            </div><!-- Main Wrapper -->
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6" style="margin: 20px">
+            <form action="{{ path_for('resetPass') }}" method="post">
+                {#{{ csrf() }}#}
+                {% if flash.error %}
+                    <div class="alert alert-danger">
+                        {{ flash.error }}
+                    </div>
+                {% endif %}
+                {% if flash.success %}
+                    <div class="alert alert-success">
+                        {{ flash.success }}
+                    </div>
+                {% endif %}
+                <input class="form-control" name="_email" type="text" placeholder="email"
+                       value="{% if last_connexion %}{{ last_connexion['email'] }}{% endif %}">
+                <br/>
+                <input type="submit" class="btn btn-success" value="Reinitialiser">
+            </form>
+        </div>
+    </div>
+{% endblock %}

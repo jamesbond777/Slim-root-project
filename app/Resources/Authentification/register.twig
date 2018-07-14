@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6" style="margin: 20px">
+            <form action="{{ path_for('registration') }}" method="post">
+                {#{{ csrf() }}#}
+                {% if flash %}
+                    <div class="alert alert-danger">
+                        {{ flash.error }}
+                    </div>
+                {% endif %}
+
+                {% if flash.errors %}
+                <div class="alert alert-warning">
+                    {{ flash.errors.registration }}
+                </div>
+                {% endif %}
+                <input class="form-control" name="_username" type="text" placeholder="username"
+                       >
+                {% if flash.errors %}
+                    <span class="help-block">
+                    {{ flash.errors.username }}
+                </span>
+                {% endif %}
+                <input class="form-control" name="_email" type="text" placeholder="email"
+                       >
+                {% if flash.errors %}
+                <span class="help-block">
+                    {{ flash.errors.email }}
+                </span>
+                {% endif %}
+                <input class="form-control" name="_password" type="password" placeholder="password"
+                       >
+                {% if flash.errors %}
+                    <span class="help-block">
+                    {{ flash.errors.password }}
+                </span>
+                {% endif %}
+                <br/>
+                <input type="submit" class="btn btn-success" value="S'enregistrer">
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6" style="margin: 20px">
+            <form action="{{ path_for('passChanged',{'id':userId,'token':token}) }}" method="post">
+                {#{{ csrf() }}#}
+                {% if flash.errors %}
+                    {% for error in flash.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% if flash.success %}
+                    <div class="alert alert-success">
+                        {{ flash.success }}
+                    </div>
+                {% endif %}
+                <input class="form-control" name="_password" type="password" placeholder="password"
+                       value="{% if last_connexion %}{{ last_connexion['email'] }}{% endif %}">
+                <input class="form-control" name="_password_confirmation" type="password" placeholder="password_confirmation"
+                       value="{% if last_connexion %}{{ last_connexion['email'] }}{% endif %}">
+                <br/>
+                <input type="submit" class="btn btn-success" value="update">
+            </form>
+        </div>
+    </div>
+{% endblock %}

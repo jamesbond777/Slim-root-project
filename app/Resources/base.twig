@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome SLIM3!{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ base_url() }}"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+{% block content %}
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

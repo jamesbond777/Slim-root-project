@@ -1,0 +1,29 @@
+{
+    "name": "SLIM3-ROOTS",
+    "authors": [
+        {
+            "name": "Desire",
+            "email": "desirearra@gmail.com"
+        }
+    ],
+    "config": {
+        "disable-tls": true,
+        "secure-http": true
+    },
+    "autoload":{
+        "psr-4": {
+            "App\\": "app/",
+            "Middlewares\\": "app/Middlewares/"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.8",
+        "slim/twig-view": "^2.2",
+        "swiftmailer/swiftmailer": "^5.4",
+        "respect/validation": "^1.1",
+        "doctrine/orm": "*",
+        "slim/csrf": "^0.8.1",
+        "monolog/monolog": "^1.23",
+        "league/climate": "^3.2"
+    }
+}

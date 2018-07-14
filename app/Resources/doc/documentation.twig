@@ -1,0 +1,354 @@
+{% extends "base-doc.twig" %}
+
+{% block content %}
+    {% include 'doc/sidebar.twig' %}
+    <div id="page-content-wrapper" class="mtop pside" style="overflow-x:hidden">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-22">
+                    <span id="getStarted"></span>
+                    <img src="{{ base_url() }}/assets/Documentation/img/slim-discourse-logo.png" style="width: 50%">
+                    <span id="getStarted"></span>
+                    <br>
+                    <br>
+                    <h2>Getting Started with Slim 3</h2>
+                    {#<input type="button" href="#menu-toggle" class="btn btn-default" id="menu-toggle" onclick="change()" #}
+                    {#value="Close Side Menu" />#}
+                    <p>This page will help you get started with Slim 3 framework. You'll be up and running in no time.!.</p>
+
+
+                    <hr/>
+                    <h3>Slim structure</h3>
+
+                <pre>
+    ├── app
+    │   └── Console
+    │   └── Controllers
+    │   └── Entity
+    │   └── Handlers
+    │   └── Middlewares
+    │   └── Resources
+    ├── bin
+    ├── config
+    ├── var
+    ├── vendor
+    ├── web    </pre>
+
+                    <p>The <b>App</b> directory is the content of your project:</p>
+                    <ul>
+                        <li>PHPCLI Functions</li>
+                        <li>Controllers files</li>
+                        <li>Entity files</li>
+                        <li>Handlers contain Error class </li>
+                        <li>Middlewares list</li>
+                        <li>Resources views</li>
+                        <li><b>NB</b>:
+                            All the assets of your project is store in the web directory, precisely in the <b>Assets</b> folder</li>
+                    </ul>
+                    <p>The <b>Config</b> directory contain:</p>
+                    <ul>
+                        <li>the cli-config file that doctrine use to give access to the command line</li>
+                        <li>the setting for slim app </li>
+                        <li>the meta parameters for Doctrine </li>
+                        <li>the config for your db </li>
+                        <li>the config for swiftmailer</li>
+                    </ul>
+                    <p>The <b>Var</b> directory contain the cache files and the log errors</p>
+                    <p>The <b>Vendor</b> directory contain all the component installed:</p>
+                    <p>The <b>Web</b> directory contain all the assets of your project</p>
+                    <ul>
+                        <li><b>NB</b>:
+                            The index file which run the slim app is in the <b>web</b> directory</li>
+                    </ul>
+
+                    <span id="configServer"></span>
+                    <br>
+                    <h2>Config The Server</h2>
+
+                    <hr/>
+                    <h5>#HOW TO LAUNCH SLIM SERVER</h5>
+                    ...
+                    <code>
+                        $ php bin/console server:run
+                    </code>
+                    <hr/>
+
+                    <h5>#HOW TO CREATE DATABASE</h5>
+                    ...
+                    <code>
+                        $ php bin/console doctrine:database:create
+                    </code>
+                    <hr/>
+
+                    <h5>#HOW TO UPDATE COMPOSER AUTOLOAD</h5>
+                    ...
+                    <code>
+                        $ composer dump-autoload
+                    </code>
+
+                    <span id="app-config"></span>
+                    <br>
+                    <h2>App Configuration</h2>
+
+                    <hr/>
+                    <h5>#HOW TO ACTIVATE EMAIL CONFIRMATION</h5>
+                    ...
+                    <pre>
+# config/security.php <br>
+'EmailConfirmation' => true,
+                    </pre>
+                    <hr/>
+
+                    <h5>#HOW TO CUSTOMIZE THE TOKEN VALIDATION TIME</h5>
+                    ...
+                    <pre>
+# config/security.php <br>
+'TokenValidityTime' => 300, // in seconds (6*60 = 300) = 6 min
+                    </pre>
+                    <hr/>
+
+                    <h5>#HOW TO CUSTOMIZE THE LOGIN PARAMETER</h5>
+                    Replace the Username by Email in :
+                    <pre>
+# config/security.php <br>
+'AuthenticateWith' => [
+    'login' => 'Username',  // Username or Email
+                ],
+                    </pre>
+                    and the input name in login.twig:
+                    <pre>
+# app/resources/authentification/login.twig
+< input class="form-control" name="_username" type="text" placeholder="username" >
+// _username or _email
+                    </pre>
+                    <hr/>
+
+                    <h5>#HOW TO SECURE A ROUTE</h5>
+                    To secure a route you must:<br>
+                    1) list all the routes you want secure and the correct role to access in the security.php file
+                    <pre>
+'PathSecurity' => [
+    '/user/dashboard' => 'ROLE_USER', // This route redirect in the index user dashboard
+    '/admin/dashboard' => 'ROLE_ADMIN', // This route redirect in the index admin dashboard
+    '/super-admin/dashboard' => 'ROLE_SUPER_ADMIN', // This route redirect in the index super admin dashboard
+],
+                    </pre>
+                    2) write the route in the router.php file
+                    <pre>
+//------------------------------------------------
+//                ADMIN ROUTES
+//------------------------------------------------
+$app->group('/admin', function () { // The prefix name to access to admin interface
+    $this->get('/dashboard', PagesController::class . ':admin')->setName('admin-interface');
+    $this->get('/user/info', PagesController::class . ':adminUserInfo')->setName('admin-user-info');
+});
+
+//------------------------------------------------
+//                USER ROUTES
+//------------------------------------------------
+$app->group('/user', function () { // The prefix name to access to user interface
+    $this->get('/dashboard', PagesController::class . ':user')->setName('user-interface');
+    $this->get('/info', PagesController::class . ':userInfo')->setName('user-info');
+});
+                    </pre>
+                    3) call the secureRequest function and check the result to return a response.
+                    $result return a 403 error (Access denied) if is different to true;
+                    <pre>
+  public function user(Request $request, ResponseInterface $response)
+    {
+      $result = $this->secureRequest($request,$response);
+      if ($result === true){
+          return $this->render($response, 'default/admin.twig',[]);
+      }else{
+          return $result;
+      }
+    }
+                    </pre>
+                    <hr/>
+
+                    <span id="httpReq-Resp"></span>
+                    <br>
+                    <br>
+                    <h2>HTTP Request & HTTP Response</h2>
+
+                    <hr/>
+
+                    <h5>#HOW TO RENDER A RESPONSE</h5>
+                    ...
+                    <code>
+                        return $this->render($response, 'pages/contact.twig');
+                    </code>
+                    <hr/>
+
+                    <h5>#HOW TO REDIRECT A RESPONSE</h5>
+                    ...
+                    <code>
+                        return $this->redirect($response, 'contact', 400, [
+                        //Some parameters
+                        ]);
+                    </code>
+                    <hr/>
+
+                    <h5>#HOW TO GET ROUTER ARGUMENTS</h5>
+                    <pre>
+$app->delete('/books/{id}/', function ($request, $response, $args) {
+    $id =  $args['id'];
+});
+</pre>
+                    <span id="doctrine"></span>
+                    <br>
+                    <br>
+                    <h2>Doctrine & Entity Manager</h2>
+
+                    <hr/>
+
+                    <h5>#HOW TO USE DOCTRINE COMMANDE LINE</h5>
+                    ...
+                    <code>
+                        $ php bin/console doctrine:list
+                    </code>
+                    <hr/>
+
+                    <h5>#HOW TO USE THE ENTITY MANGER IN THE CONTROLLER</h5>
+                    <pre>
+$user = new User();
+$user->setEmail("email@test.com");
+$user->setName("jean jacques");
+
+$this->getEntityManager()->persist($user);
+$this->getEntityManager()->flush();
+</pre>
+                    <pre>
+$user = $this->getEntityManager()->find('App\Entity\User', '$id');
+$user->setEmail("email@test.com");
+$user->setName("jean jacques");
+
+$this->getEntityManager()->persist($user);
+$this->getEntityManager()->flush();
+</pre>
+                    <hr/>
+
+                    <h5>#HOW TO USE DOCTRINE FIND METHOD</h5>
+                    <pre>
+$user = $this->getEntityManager()->find('App\Entity\User', '$id');
+$user = $this->getEntityManager()->findBy(['id' => $id]); // find by id return array() object
+$user = $this->getEntityManager()->findOneBy(['id' => $id]); // find One by id return object
+                     ///////   OR  \\\\\\\
+$em = $this->getEntityManager();
+$user = $em->getRepository('App\Entity\Users')->findOneBy(['id' => $userId]);
+$user = $em->getRepository('App\Entity\Users')->findBy(['id' => $userId]);
+$user = $em->getRepository('App\Entity\Users')->find(['id' => $userId]);
+$user = $em->getRepository('App\Entity\Users')->findAll(['id' => $userId]);
+</pre>
+                    <span id="flash"></span>
+                    <br>
+                    <br>
+                    <h2>Flash Middlewares</h2>
+
+                    <hr/>
+
+                    <h5>#HOW TO MAKE A FLASH MESSAGE WITH THE SESSION VARIABLES</h5>
+                    <pre>
+//Message flash
+$this->flash('Votre message à bien été envoyé','success');
+$this->flash('Champs vides','error');
+$this->flash('attention informations','warning');
+</pre>
+                    <span id="swiftmailer"></span>
+                    <br>
+                    <br>
+                    <h2>Swiftmailer</h2>
+
+                    <hr/>
+
+                    <h5>#HOW TO SEND A SIMPLE MAIL</h5>
+                    <pre>
+// To send a simple mail we need to use the function prepareEmail()
+  ... example
+  //get all variables
+  $subject = "Swiftmailer test";
+  $setFrom = you@slim.com;
+  $to = array('society@slim.com', 'she@slim.com', 'he@slim.com');
+  $body =  'Some content...';
+  $pieceJointe = [
+    __DIR__.'\..\..\path\to\file.pdf' => 'pdf',
+    __DIR__.'\..\..\path\to\file.doc' => 'doc',
+    __DIR__.'\..\..\path\to\file.csv' => 'csv',
+    ...
+  ];
+  //prepare the message
+  $message = $this->prepareEmail($subject, $to, $body, $setFrom, $pieceJointe);
+  //get the mailer container and send the message
+  $mailer = $this->getContainer('mailer');
+  $mailer->send($message);
+</pre>
+                    <hr/>
+
+                    <h5>#HOW TO SEND A MAIL WITH A TEMPLATE</h5>
+                    <pre>
+// HOW TO SEND A MAIL WITH A TEMPLATE
+// To send a mail with template-email we need to use the function prepareEmailWithTemplate()
+  ... example
+  //get all variables
+  $subject = "Swiftmailer test";
+  $setFrom = you@slim.com;
+  $to = array('society@slim.com', 'she@slim.com', 'he@slim.com');
+  $email_template =  __DIR__.'\..\..\path\to\template';
+  $pieceJointe = [
+    __DIR__.'\..\..\path\to\file.pdf' => 'pdf',
+    __DIR__.'\..\..\path\to\file.doc' => 'doc',
+    __DIR__.'\..\..\path\to\file.csv' => 'csv',
+    ...
+  ];
+  //prepare the message
+  $message = $this->prepareEmailWithTemplate($subject, $to, $email_template, $setFrom, $pieceJointe);
+  //get the mailer container and send the message
+  $mailer = $this->getContainer('mailer');
+  $mailer->send($message);
+</pre>
+                    <span id="Sending-file"></span>
+                    <br>
+                    <br>
+                    <h2>Sending Files & CSRF Security</h2>
+
+                    <hr/>
+
+                    <h5>#HOW TO SEND A FILE INSIDE THE CONTROLLER</h5>
+                    <pre>
+ // To send a file you need to configure the upload_directory in the src/container.php
+    ... example
+    // Get the directory with the container
+    $directory = $this->getContainer('upload_directory');
+
+    // Call the method getUploadedFiles()
+    $uploadedFiles = $request->getUploadedFiles();
+
+    // handle single input with multiple file uploads
+    foreach ($uploadedFiles['example3'] as $uploadedFile) {
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $filename = $this->moveUploadedFile($directory, $uploadedFile);
+            // make something esle...
+
+        }else{
+            // make something esle...
+        }
+    }
+</pre>
+                    <hr/>
+
+                    <h5>#HOW TO USE CSRF JETON</h5>
+                    <pre>
+ //Put in your twig file inside the form a var twig csrf()
+    ... example
+  < form action="#" method="post" enctype="multipart/form-data" >
+      [[ csrf() ]] // replace the "[[" by x2"{"
+      < div class="form-group" >
+          < label for="nom">Votre Nom < /label>
+          ...
+</pre>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

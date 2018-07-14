@@ -1,0 +1,6 @@
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+$config = include(__DIR__ . '/../config/settings.php');
+$app = new Slim\App($config);
+include(__DIR__ . '/../app/Console/cliFunctions.php');
+commandLine($argv, $container, $config);

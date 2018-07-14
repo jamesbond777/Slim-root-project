@@ -1,0 +1,26 @@
+{% extends "base-error.twig" %}
+{% block title %}Email confirmation| success{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="page-inner">
+            <div id="main-wrapper">
+                <div class="row" style="margin: 0px;">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 center">
+                        <div class="row">
+                            <div class="col-md-7 center">
+                            <i class="fa fa-envelope-o text-success" style="font-size: 200px;"></i>
+                             </div>
+                        </div>
+                        <div class="details">
+                            <h3>Your registration has been done successfully!</h3>
+                            <p>Now you must confirm your registration with the link you will receive into your email
+                                . Return to <a href="{{ path_for('home') }}">Home</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div><!-- Row -->
+            </div><!-- Main Wrapper -->
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    {% if flash.success %}
+    <div class="alert alert-success">
+    {{ flash.success }}
+    </div>
+    {% endif %}
+    hello {{ username }} : {{ user_role }}
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome SLIM3!{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ base_url() }}"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .center {
+            margin: 0 auto;
+            float: none!important;
+            display: block;
+        }
+        .page-error .details {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .text-xxl {
+            font-size: 80px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        body {
+            width: 100%;
+            font-family: Ubuntu,sans-serif;
+            background: rgba(204, 204, 204, 0.08);
+            color: #4E5E6A;
+        }
+        .text-success {
+            color: rgba(60, 118, 61, 0.64);
+        }
+        .text-warning {
+            color: #f3ab30;
+        }
+        .text-white {
+            color: white;
+        }
+        .btn-success {
+            color: rgba(60, 118, 61, 0.64);
+        }
+        .btn-warning {
+            color: #f3ab30;
+        }
+    </style>
+</head>
+
+<body class="page-error  pace-done">
+{% block content %}
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

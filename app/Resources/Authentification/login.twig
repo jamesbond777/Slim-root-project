@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6" style="margin: 20px">
+            <form action="{{ path_for('postlogin') }}" method="post">
+                {#{{ csrf() }}#}
+                {% if flash.error %}
+                    <div class="alert alert-danger">
+                        {{ flash.error }}
+                    </div>
+                {% endif %}
+                {% if flash.success %}
+                    <div class="alert alert-success">
+                        {{ flash.success }}
+                    </div>
+                {% endif %}
+                <input class="form-control" name="_username" type="text" placeholder="username"
+                       value="{% if last_connexion %}{{ last_connexion['login'] }}{% endif %}">
+                <input class="form-control" name="_password" type="password" placeholder="password"
+                       value="{% if last_connexion %}{{ last_connexion['password'] }}{% endif %}">
+                <label for="#_remember">Remember</label>
+                <input class="checkbox checkbox-inline" name="_remember" id="_remember" type="checkbox"
+                       {% if last_connexion['remember'] == 'on'%}checked{% endif %}>
+                {#{{ dump(last_connexion) }}#}
+                <br/>
+                <br/>
+                <input type="submit" class="btn btn-success" value="Se connecter">
+
+                <br/>
+                <br/>
+                <a  class="btn btn-warning" href="{{ path_for('forgot_password') }}"> password forgot</a> /
+                <a  class="btn btn-danger" href="{{ path_for('logout') }}"> logout</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
